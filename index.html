@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    /* 浏览器刷新时会恢复上次的滚动位置：首屏照片会停在“收拢到一半”的样子，
+       看起来像照片变小 / 跑位 / 被顶部裁切。这里关闭恢复，保证每次打开都从顶部开始
+       （带 #锚点 的链接不强制回到顶部）。 */
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.addEventListener('load', function () {
+      if (!location.hash && window.scrollY > 0) window.scrollTo(0, 0);
+    });
+  </script>
+  <meta name="description" content="刘羽萱（LIU YUXUAN）的个人主页：学术简介、教育背景、学术兴趣、项目与经历、数字分身聊天与联系方式。Bilingual personal homepage — profile, education, academic interests, projects, experiences, digital twin chat and contact." />
+  <title>刘羽萱 LIU YUXUAN · 个人主页 / Personal Homepage</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20260924h" />
+</head>
+<body>
+  <main class="page-shell">
+
+    <!-- 悬浮胶囊导航（白色胶囊 + 立体 logo + 等宽大写链接 + 悬停上滚） -->
+    <header class="topbar">
+      <a class="brand" href="#profile" aria-label="回到首屏 / Back to top">
+        <span class="brand-logo">LIU YUXUAN</span>
+        <span class="brand-name">刘羽萱<em>PORTFOLIO · 个人主页</em></span>
+      </a>
+      <nav aria-label="页面导航 / Navigation">
+        <a href="#profile"><span class="roll"><span class="r1">Home</span><span class="r2">简介</span></span></a>
+        <a href="#about"><span class="roll"><span class="r1">About</span><span class="r2">关于我</span></span></a>
+        <a href="#experience"><span class="roll"><span class="r1">Experience</span><span class="r2">经历</span></span></a>
+        <a href="#projects"><span class="roll"><span class="r1">Projects</span><span class="r2">项目</span></span></a>
+        <a href="#chat"><span class="roll"><span class="r1">Twin</span><span class="r2">数字分身</span></span></a>
+        <a href="#contact"><span class="roll"><span class="r1">Contact</span><span class="r2">联系</span></span></a>
+        <a href="#feedback"><span class="roll"><span class="r1">Message</span><span class="r2">留言板</span></span></a>
+      </nav>
+      <a class="cv-btn" href="#contact">CV <span>↗</span></a>
+    </header>
+    <div class="page-badge" aria-hidden="true"><span>中</span>/<span>EN</span></div>
+
+    <!-- 首屏：绿色方格纸 + 滚动「收拢 / 打开」动画（参考 okaydev.co 首屏） -->
+    <section class="profile-section" id="profile">
+      <div class="hero-full" data-hero>
+        <div class="hero-bg" aria-hidden="true">
+          <div class="hero-grid-lines"></div>
+          <div class="hero-center-fade"></div>
+        </div>
+
+        <!-- 漂浮的照片位（随鼠标/滚动视差 + 悬停光泽）
+             四张照片两行两列：每行都是「左边横图 + 右边竖图」 -->
+        <div class="hero-media" aria-hidden="true">
+          <!-- 第一行 · 左：横图 -->
+          <span class="hero-tile hero-tile--landscape" data-date="2010年" data-place="阿联酋" style="--x:4%;--y:23%;--w:clamp(92px,11.5vw,168px);--spd:1.15;--rot:-3deg">
+            <img src="assets/hero-photo-1.jpg" alt="" width="900" height="675" decoding="async" />
+          </span>
+          <!-- 第一行 · 右：竖图 -->
+          <span class="hero-tile hero-tile--portrait" data-date="2025年" data-place="深圳" style="--x:83%;--y:15%;--w:clamp(80px,min(9.5vw,15vh),138px);--spd:.85;--rot:2.5deg">
+            <img src="assets/hero-photo-2.jpg" alt="" width="640" height="958" decoding="async" />
+          </span>
+          <!-- 第二行 · 左：横图 -->
+          <span class="hero-tile hero-tile--landscape" data-date="2023年" data-place="成都" style="--x:8%;--y:69%;--w:clamp(74px,8.5vw,126px);--spd:1.4;--rot:2deg">
+            <img src="assets/hero-photo-3.jpg" alt="" width="900" height="600" decoding="async" />
+          </span>
+          <!-- 第二行 · 右：竖图 -->
+          <span class="hero-tile hero-tile--portrait" data-date="2011年" data-place="梵蒂冈" style="--x:84%;--y:56%;--w:clamp(100px,min(12.5vw,17vh),186px);--spd:1;--rot:-2.5deg">
+            <img src="assets/hero-photo-4.jpg" alt="" width="640" height="853" decoding="async" />
+          </span>
+        </div>
+
+        <div class="hero-inner">
+          <p class="hero-eyebrow">Computer Science · TJU × PolyU</p>
+          <h1 class="hero-headline" data-headline>
+            <span class="headline-bar" data-headline-bar aria-hidden="true">
+              <span class="headline-bar-words">
+                <span class="headline-line"><span class="headline-word is-white">Welcome to</span></span>
+                <span class="headline-line"><span class="headline-word is-white">my channel</span></span>
+              </span>
+            </span>
+            <span class="headline-line" data-hero-line="1"><span class="headline-word">Welcome to</span></span>
+            <span class="headline-line" data-hero-line="2"><span class="headline-word">my channel</span></span>
+          </h1>
+          <p class="hero-description">
+            随和、活泼、爱笑的女大学生 · 记录快乐，保持好奇
+            <em>An easy-going CS student — keeping curious, keeping smiling.</em>
+          </p>
+          <p class="hero-hint">✿ 把鼠标放在照片上，看看它们的故事 <em>· Hover the photos to see their stories</em></p>
+          <div class="hero-ctas">
+            <a class="home-btn home-btn--dark" href="#about">探索更多 <span>↓</span></a>
+            <a class="home-btn" href="#contact">联系我 <span>↗</span></a>
+          </div>
+        </div>
+
+        <!-- 收拢后出现在末行上方的眉标（滚动时淡入，参考 okaydev 的 eyebrow-clone） -->
+        <p class="hero-eyebrow hero-eyebrow--clone" data-hero-eyebrow-clone aria-hidden="true">Computer Science · TJU × PolyU</p>
+
+        <!-- 底部滚动字幕 -->
+        <div class="home-marquee" aria-hidden="true">
+          <div class="marquee-track">
+            <div class="marquee-group">
+              <span class="marquee-item">Emily</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">Computer Science</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">TJU × PolyU</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">Keep Curious</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">Photography &amp; Music</span>
+              <span class="marquee-sep">✦</span>
+            </div>
+            <div class="marquee-group">
+              <span class="marquee-item">Emily</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">Computer Science</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">TJU × PolyU</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">Keep Curious</span>
+              <span class="marquee-sep">✦</span>
+              <span class="marquee-item">Photography &amp; Music</span>
+              <span class="marquee-sep">✦</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 档案条：照片留空位 + 基本信息（原首屏内容保留） -->
+      <div class="intro-strip">
+        <div class="intro-left">
+          <div class="photo-stage">
+            <!-- 个人照片（原图，保留拍摄背景） -->
+            <figure class="photo-portrait">
+              <img src="assets/liuyuxuan-portrait.jpg" alt="刘羽萱的照片 / Portrait of Liu Yuxuan" width="900" height="1350" />
+            </figure>
+            <div class="now-card">
+              <span class="now-label">NOW</span>
+              <strong>在读本科生</strong>
+              <span>Computer Science</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="intro-right">
+          <p class="hello-tag"><i></i> HELLO / 你好</p>
+          <h2 class="intro-title"><span class="gradient-text">Hi, 我是刘羽萱</span></h2>
+
+          <div class="myfile-card">
+            <span class="myfile-label">MY FILE / 我的档案</span>
+            <span class="myfile-value">TJU × PolyU · 深圳未来技术学院 · 在读本科生</span>
+          </div>
+
+          <p class="hero-desc">
+            一名随和、活泼、爱笑的女大学生。喜欢听音乐、拍照片、追好剧，也爱和朋友一起发现好吃的。
+          </p>
+          <p class="hero-desc en">
+            An easy-going, cheerful student. I love music, photography, great shows, and hunting
+            down good food with friends — while keeping my studies on track.
+          </p>
+
+          <div class="chips" aria-label="兴趣标签 / Interests">
+            <span>听音乐 <em>Music</em></span>
+            <span>拍照片 <em>Photo</em></span>
+            <span>追好剧 <em>Series</em></span>
+            <span>好吃的 <em>Food</em></span>
+            <span>出去玩 <em>Outing</em></span>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn btn-dark" href="#about">查看教育·兴趣 <span>↓</span></a>
+            <a class="btn btn-light" href="#contact">联系我 <span>↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 01 关于我 -->
+    <section class="about-section" id="about">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <div>
+          <p class="section-kicker">A LITTLE ABOUT ME</p>
+          <h2 class="section-title"><span class="gradient-text">关于我</span></h2>
+        </div>
+      </div>
+
+      <div class="col-grid">
+        <article class="col">
+          <p class="col-label">EDUCATION · 教育背景</p>
+          <h3>教育背景</h3>
+          <p class="body-text">TJU × PolyU，深圳未来技术学院，计算机科学与技术专业在读。</p>
+          <p class="body-text en">Undergraduate in Computer Science &amp; Technology at the Tianjin University × Hong Kong Polytechnic University Shenzhen Future Technology Institute.</p>
+          <ul class="meta-list">
+            <li><span>学制</span>本科 · 在学 <em>Bachelor's · Enrolled</em></li>
+            <li><span>方向</span>软件开发 <em>Software Development</em></li>
+            <li><span>语言</span>中文 / 英文 <em>Chinese / English</em></li>
+          </ul>
+        </article>
+
+        <article class="col">
+          <p class="col-label">ACADEMIC INTERESTS · 学术兴趣</p>
+          <h3>学术兴趣</h3>
+          <p class="body-text">我对能「做出看得见的东西」的方向尤其感兴趣——从写代码到把它变成可以交互的界面。</p>
+          <p class="body-text en">I'm especially drawn to fields where you can build something tangible — from writing code to turning it into interactive experiences.</p>
+          <ul class="meta-list">
+            <li><span>01</span>程序设计 <em>Programming</em></li>
+            <li><span>02</span>数据结构与算法 <em>Algorithms</em></li>
+            <li><span>03</span>人机交互与界面设计 <em>HCI &amp; UI</em></li>
+            <li><span>04</span>人工智能入门 <em>Intro to AI</em></li>
+          </ul>
+        </article>
+
+        <article class="col">
+          <p class="col-label">SKILLS · 技能</p>
+          <h3>我会的一些东西</h3>
+          <p class="body-text">正在学习 &amp; 日常积累的技能。</p>
+          <p class="body-text en">Skills I'm learning and building up day by day.</p>
+          <ul class="meta-list">
+            <li><span>编程</span>HTML / CSS / JS，Python 基础 <em>web &amp; Python</em></li>
+            <li><span>设计</span>拍照修图、排版文档 <em>Photo &amp; layout</em></li>
+            <li><span>语言</span>中文、英语读写 <em>Chinese, English</em></li>
+            <li><span>协作</span>团队沟通与整理 <em>Teamwork</em></li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="off-strip">
+        <p class="col-label">OFF THE CLOCK · 课外的我</p>
+        <div class="chips">
+          <div class="chips-row">
+            <span class="chip-clickable" data-gallery="photography" data-tip="点击查看我的摄影作品 · Click to view my photography"><span class="chip-ico">📷</span>拍照片 <em>Photography</em></span>
+            <span class="chip-clickable" data-gallery="food" data-tip="点击看看我探过的店 · Click to see the places I've tried"><span class="chip-ico">🍜</span>探店美食 <em>Food hunting</em></span>
+          </div>
+          <div class="chips-row">
+            <span><span class="chip-ico">🎵</span>听音乐 <em>Music</em></span>
+            <span><span class="chip-ico">📺</span>追好剧 <em>Binge-watching</em></span>
+            <span><span class="chip-ico">🎉</span>和朋友出去玩 <em>Time with friends</em></span>
+          </div>
+        </div>
+        <p class="off-note">认真学习和好好生活，我都想兼顾。<em>I want to do well at both my studies and my life.</em></p>
+      </div>
+    </section>
+
+    <!-- 02 经历与活动 -->
+    <section class="experience-section" id="experience">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <div>
+          <p class="section-kicker">EXPERIENCE &amp; ACTIVITIES</p>
+          <h2 class="section-title"><span class="gradient-text">经历与活动</span></h2>
+        </div>
+      </div>
+
+      <div class="row-list">
+        <div class="row">
+          <div class="row-when">Campus<em>校园经历</em></div>
+          <div class="row-main">
+            <h3>校园与学习生活</h3>
+            <p class="body-text">积极参加课程项目与校园活动，在小组作业中负责组织与整理，也乐于和同学一起解决难题。</p>
+            <p class="body-text en">Actively taking part in coursework and campus activities; organizing and coordinating in group projects, and always happy to solve problems together with classmates.</p>
+            <p class="tag-line"><span>课程项目 · Coursework</span><span>小组协作 · Teamwork</span></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="row-when">Honors<em>荣誉奖项</em></div>
+          <div class="row-main">
+            <h3>荣誉 / 获奖（示例占位）</h3>
+            <p class="body-text">此处用于列出奖学金、竞赛或校级荣誉（占位，正式发布前请替换为真实信息）。</p>
+            <p class="body-text en">Reserved for scholarships, competitions, or school awards. Placeholder — please replace with real details before publishing.</p>
+            <p class="tag-line"><span>[示例占位 · Placeholder]</span></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="row-when">Internship<em>实习实践</em></div>
+          <div class="row-main">
+            <h3>实习 / 实践（示例占位）</h3>
+            <p class="body-text">可在此填写实习、社会实践或志愿服务经历（占位）。</p>
+            <p class="body-text en">Add internships, social practice, or volunteer experience here (placeholder).</p>
+            <p class="tag-line"><span>[示例占位 · Placeholder]</span></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="row-when">Clubs<em>社团工作</em></div>
+          <div class="row-main">
+            <h3>社团 / 学生工作</h3>
+            <p class="body-text">加入的兴趣社团、学生会或志愿者活动，让人与人之间的连接更有温度（示例占位）。</p>
+            <p class="body-text en">Clubs, student unions, or volunteer groups I joined (placeholder).</p>
+            <p class="tag-line"><span>[示例占位 · Placeholder]</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 项目精选 -->
+    <section class="projects-section" id="projects">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <div>
+          <p class="section-kicker">SELECTED PROJECTS</p>
+          <h2 class="section-title"><span class="gradient-text">项目精选</span></h2>
+        </div>
+      </div>
+
+      <div class="row-list">
+        <div class="row">
+          <div class="row-when">Project 01<em>个人站点</em></div>
+          <div class="row-main">
+            <h3>数字分身 · 个人主页</h3>
+            <p class="body-text">一个「中英双语」的个人学术主页，包含自我介绍、教育背景、兴趣技能，以及一个能对话的本地数字分身。纯静态实现（HTML / CSS / JS），无需后端、不上传聊天内容。</p>
+            <p class="body-text en">A bilingual personal academic homepage with profile, education, interests, and a local rule-based digital twin chatbot. Pure static (HTML / CSS / JS) — no backend, and chat content never leaves the browser.</p>
+            <p class="tag-line"><span>HTML</span><span>CSS</span><span>JavaScript</span></p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="row-when">Project 02<em>待补充</em></div>
+          <div class="row-main">
+            <h3>其他项目（示例占位）</h3>
+            <p class="body-text">在此补充课程设计、竞赛作品或兴趣项目，附上链接与简介（示例占位）。</p>
+            <p class="body-text en">Add course designs, competition works, or personal projects here along with links and a short description (placeholder).</p>
+            <p class="tag-line"><span>[待补充 · To add]</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 数字分身聊天 -->
+    <section class="chat-section" id="chat">
+      <div class="chat-intro">
+        <div class="section-head light">
+          <span class="section-num">04</span>
+          <div>
+            <p class="section-kicker">MY DIGITAL TWIN</p>
+            <h2 class="section-title"><span class="gradient-text light">来和「小羽」聊聊天</span></h2>
+          </div>
+        </div>
+        <p class="chat-description">这是我的数字分身。想知道我的大学生活、最近在学什么、吃了什么好吃的，或者什么时候有空出来玩？尽管问她吧！</p>
+        <p class="chat-description en">This is my digital twin. Curious about my campus life, what I'm studying lately, what tasty things I've found, or when I'm free to hang out? Ask her in Chinese or English.</p>
+        <div class="mini-profile">
+          <img src="assets/liuyuxuan-avatar.png" alt="小羽头像 / Xiaoyu avatar" />
+          <div><strong>小羽 · 数字分身</strong><span><i></i> 在线摸鱼中 · Online</span></div>
+        </div>
+        <p class="privacy-note">✿ 本地对话，不上传聊天内容 · Local chat, nothing is uploaded</p>
+      </div>
+
+      <div class="chat-card">
+        <div class="chat-topline">
+          <div class="chat-person"><img src="assets/liuyuxuan-avatar.png" alt="小羽 / Xiaoyu" /><div><strong>小羽</strong><span>羽萱的数字分身 · Digital Twin</span></div></div>
+          <button id="resetChat" class="reset-btn" type="button" title="重新开始 / Restart" aria-label="重新开始 / Restart">↻</button>
+        </div>
+        <div class="messages" id="messages" aria-live="polite">
+          <div class="message bot">
+            <img src="assets/liuyuxuan-avatar.png" alt="" />
+            <div class="bubble">嗨～我是羽萱的数字分身「小羽」！中英文都可以问哦。想聊聊我的大学生活、最近好吃的，还是约我出去玩？<em>Hi! Ask me in Chinese or English.</em></div>
+          </div>
+        </div>
+        <div class="suggestions" id="suggestions">
+          <button type="button">最近在大学怎么样？</button>
+          <button type="button">有没有吃到什么好吃的？</button>
+          <button type="button">什么时候有时间出来玩？</button>
+          <button type="button" lang="en">Tell me about your campus life</button>
+          <button type="button" lang="en">Your favorite food?</button>
+        </div>
+        <form class="chat-input" id="chatForm">
+          <input id="chatInput" type="text" autocomplete="off" maxlength="120" placeholder="问小羽一个问题吧… Ask anything…" aria-label="输入聊天问题 / Type a question" />
+          <button type="submit" aria-label="发送消息 / Send">发送 <span>↗</span></button>
+        </form>
+      </div>
+    </section>
+
+    <!-- 05 联系方式 -->
+    <section class="contact-section" id="contact">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <div>
+          <p class="section-kicker">GET IN TOUCH</p>
+          <h2 class="section-title"><span class="gradient-text">联系方式</span></h2>
+        </div>
+      </div>
+
+      <div class="row-list">
+        <div class="row">
+          <div class="row-when">Email<em>邮箱</em></div>
+          <div class="row-main">
+            <a class="contact-value" href="mailto:2789529167@qq.com">2789529167@qq.com</a>
+            <p class="body-text en">For academic exchange, coursework, or general contact.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row-when">GitHub<em>代码仓库</em></div>
+          <div class="row-main">
+            <a class="contact-value" href="https://github.com/Emily-liu00" target="_blank" rel="noopener">github.com/Emily-liu00</a>
+            <p class="body-text en">Code from my personal projects and coursework.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="contact-privacy">✿ 邮箱和 GitHub 是我对外的联系渠道，其他社交账号暂时不公开。<em>Email and GitHub are my main contact channels; other social accounts stay private.</em></p>
+    </section>
+
+    <!-- 06 留言板（提交后写入 Supabase，仅作者可见） -->
+    <section class="feedback-section" id="feedback">
+      <div class="section-head">
+        <span class="section-num">06</span>
+        <div>
+          <p class="section-kicker">LEAVE A MESSAGE</p>
+          <h2 class="section-title"><span class="gradient-text">留言板</span></h2>
+        </div>
+      </div>
+
+      <div class="feedback-wrap">
+        <div class="feedback-intro">
+          <p class="hello-tag"><i></i> SAY HI / 说点什么</p>
+          <p class="feedback-lead">嗨，既然来了就坐一会儿吧～ 我很想知道你的真实想法。</p>
+          <p class="body-text">不管是「这里可以更好」、想看的某个内容，还是单纯路过打个招呼，都可以写下来告诉我。</p>
+          <p class="body-text en">Suggestions, ideas, or just to say hi — write it down and I'll read every single one.</p>
+
+          <ul class="feedback-notes">
+            <li><span>只给我看</span>留言不会公开显示，只有我能看到 <em>Private</em></li>
+            <li><span>随便写</span>不用客套，想到什么写什么 <em>Casual</em></li>
+            <li><span>一定会看</span>好用的建议，我会慢慢改上来 <em>Promise</em></li>
+          </ul>
+
+          <p class="feedback-privacy">✿ 留言会保存到我的数据库，不在页面上公开。<em>Saved privately, never shown publicly.</em></p>
+        </div>
+
+        <form class="feedback-card" id="feedbackForm" novalidate>
+          <div class="fb-row">
+            <div class="fb-field">
+              <label for="fbNickname">你的昵称 <em>怎么称呼你呀？</em></label>
+              <input id="fbNickname" name="nickname" type="text" maxlength="40" autocomplete="nickname" placeholder="比如：隔壁班的小林" />
+            </div>
+            <div class="fb-field">
+              <label for="fbRelation">和我的关系 <em>选填，顺手选一个</em></label>
+              <select id="fbRelation" name="relation">
+                <option value="">我们是怎么认识的？</option>
+                <option value="同学 / 同校">同学 / 同校</option>
+                <option value="老师 / 校友">老师 / 校友</option>
+                <option value="朋友">朋友</option>
+                <option value="家人">家人</option>
+                <option value="网友">网友</option>
+                <option value="其他">其他</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="fb-field">
+            <label for="fbMessage">你的建议，或者想对我说的话 <em>想到什么写什么就好</em></label>
+            <textarea id="fbMessage" name="message" rows="6" maxlength="1000" placeholder="任何想法都可以，越具体越好（例如：想要一个相册板块、这里的字有点小、某个链接打不开…）"></textarea>
+            <span class="fb-counter" id="fbCounter">0 / 1000</span>
+          </div>
+
+          <!-- 机器人陷阱：真人看不到这一栏，请不要删除 -->
+          <div class="fb-honeypot" aria-hidden="true">
+            <label for="fbWebsite">Website</label>
+            <input id="fbWebsite" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="fb-actions">
+            <button id="fbSubmit" type="submit"><span data-label>寄出这条留言</span> <span aria-hidden="true">↗</span></button>
+            <p class="fb-tip">✿ 只有我能看到，放心写</p>
+          </div>
+
+          <p class="fb-status" id="fbStatus" hidden role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-left">
+        <p class="footer-brand">刘羽萱 <span>·</span> LIU YUXUAN</p>
+        <p>MADE WITH <span>♡</span> · 记录快乐，保持好奇 <em>Keep curious, keep smiling</em></p>
+      </div>
+      <div class="footer-right">
+        <p>© 2026 · 个人主页课程作业 · Personal Homepage</p>
+        <p>数字分身基于本地知识库，不上传聊天内容 · Local knowledge base, nothing uploaded</p>
+      </div>
+    </footer>
+  </main>
+
+  <!-- 首屏照片悬停气泡：鼠标放在照片上弹出日期地点（可爱对话框） -->
+  <div class="tile-tip" id="tileTip" hidden role="tooltip" aria-hidden="true">
+    <p class="tile-tip-row"><span class="tile-tip-ico">📅</span><span id="tileTipDate"></span></p>
+    <p class="tile-tip-row"><span class="tile-tip-ico">📍</span><span id="tileTipPlace"></span></p>
+  </div>
+
+  <!-- 照片灯箱：点击「拍照片 / 探店美食」胶囊弹出 -->
+  <div class="gallery-overlay" id="galleryOverlay" hidden>
+    <div class="gallery-dialog" role="dialog" aria-modal="true" aria-labelledby="galleryTitle">
+      <div class="gallery-head">
+        <p class="gallery-title" id="galleryTitle"></p>
+        <button class="gallery-close" id="galleryClose" aria-label="关闭相册" type="button">×</button>
+      </div>
+      <!-- 照片墙（瀑布流缩略图） -->
+      <div class="gallery-grid" id="galleryGrid"></div>
+      <!-- 单张大图浏览 -->
+      <div class="gallery-viewer" id="galleryViewer" hidden>
+        <button class="gallery-back" id="galleryBack" type="button">← 返回相册</button>
+        <button class="gallery-nav gallery-prev" id="galleryPrev" aria-label="上一张" type="button">‹</button>
+        <figure class="gallery-stage">
+          <img id="galleryImg" src="" alt="" />
+          <figcaption id="galleryCaption"></figcaption>
+        </figure>
+        <button class="gallery-nav gallery-next" id="galleryNext" aria-label="下一张" type="button">›</button>
+        <span class="gallery-count" id="galleryCount"></span>
+      </div>
+    </div>
+  </div>
+
+  <script src="hero.js?v=20260917c"></script>
+  <script src="script.js?v=20260924d"></script>
+  <script src="scrollfx.js?v=20260924b"></script>
+  <!-- 留言板：先在 supabase-config.js 填写 Project URL 与 anon key -->
+  <script src="supabase-config.js"></script>
+  <script src="feedback.js"></script>
+</body>
+</html>
