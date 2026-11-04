@@ -1,115 +1,36 @@
+/* ============================================================
+ * 数字分身「小羽」
+ * 真实大模型对话：前端只发消息，不接触任何密钥。
+ * 接口地址在 twin-config.js 里配置（window.TWIN_API）。
+ * 接口约定：POST { messages: [{role, content}] } → { reply } 或 { error }
+ * ============================================================ */
+
 const messages = document.querySelector('#messages');
 const form = document.querySelector('#chatForm');
 const input = document.querySelector('#chatInput');
 const suggestions = document.querySelector('#suggestions');
 const resetButton = document.querySelector('#resetChat');
 
-const opening = '嗨～我是羽萱的数字分身「小羽」！想聊聊我的大学生活、最近去哪玩、还是吃了什么好吃的？中英文都可以问哦。\nHi! I\'m Yuxuan\'s digital twin Xiaoyu. Ask me in Chinese or English — about campus life, food, or plans!';
+const API_ENDPOINT = String(window.TWIN_API || '').trim();
+const MAX_HISTORY = 8;        // 最多带 8 条上下文，控制 token 消耗
+const REQUEST_TIMEOUT = 30000; // 30 秒，超时给用户明确提示
 
-// —— 中文知识库 ——
-const knowledge = [
-  {
-    keywords: ['大学', '怎么样', '学校', '学习', '专业', '上学', '最近'],
-    answer: '最近在大学还不错！我是天津大学×香港理工大学深圳未来技术学院计算机科学与技术专业的学生。现在主要是认真学习课程、尝试编程，也努力吃好睡好，把状态保持得稳稳的～'
-  },
-  {
-    keywords: ['玩', '去哪', '旅游', '地点', '探店', '周末', '游玩', '去哪儿'],
-    answer: '说到出去玩我可就来精神啦～我平时喜欢出去探店，找好吃好逛的地方。周末有空的话，逛街探店、看新店都很开心。你有推荐的地方吗？可以一起去！'
-  },
-  {
-    keywords: ['吃', '好吃', '美食', '餐厅', '饭', '好吃的'],
-    answer: '最近还真有在认真探索美食！作为爱探店的女生，我尤其喜欢发现新餐厅、好吃的甜品和奶茶。我暂时没联网，具体店名可能要等我想到～不过聊吃的我超乐意！'
-  },
-  {
-    keywords: ['就业', '工作', '求职', '方向', '未来', '职业', '找工作'],
-    answer: '未来的路我也在慢慢看啦～现在就想先把课上好、把编程学一学，多接触多了解，再看看自己喜欢走哪条路。不急，一步一步来就挺好！'
-  },
-  {
-    keywords: ['考研', '研究生', '学历', '深造'],
-    answer: '考研这件事我也还在纠结犹豫中呢，想说先把手头的东西学好，之后再慢慢想～你也打算考研吗？可以一起聊聊，互相打打气呀！'
-  },
-  {
-    keywords: ['剧', '电视剧', '好剧', '追剧', '电影', '综艺'],
-    answer: '最近在物色好剧！悬疑、轻松、口碑好的我都会追，很乐意和你互相交换片单。你最近在看什么？给我推荐一部吧～'
-  },
-  {
-    keywords: ['音乐', '歌', '听歌', '演唱会', '歌手'],
-    answer: '听音乐是我的快乐来源之一，没什么比找到一首喜欢的歌更治愈了！你最近在循环哪首？我们可以互相安利。'
-  },
-  {
-    keywords: ['兴趣', '喜欢', '爱好', '做什么'],
-    answer: '我的快乐三件套是：听音乐、追剧、出去探店！平时就是在学习、编程和好好生活之间平衡，把日子过得闪闪发光。'
-  },
-  {
-    keywords: ['特点', '长什么样', '眼镜', '长相', '外貌'],
-    answer: '认出我很简单：一副圆框眼镜、一个爱笑的表情，就是我的标志啦～大家都叫我「眼镜妹」呢。'
-  },
-  {
-    keywords: ['你好', '嗨', 'hello', 'hi', '在吗'],
-    answer: '嗨嗨～欢迎来到羽萱的小主页！我是她的数字分身小羽。你可以问我：近况、想去哪玩、吃了什么好吃的，或者聊聊好剧、音乐和爱豆呀～'
-  }
+const opening =
+  '嗨～我是羽萱的数字分身「小羽」！想聊聊我的大学生活、最近去哪玩、还是吃了什么好吃的？中英文都可以问哦。\n' +
+  "Hi! I'm Yuxuan's digital twin Xiaoyu. Ask me in Chinese or English — about campus life, food, or plans!";
+
+const errorTips = [
+  '网络好像开小差了，稍后再试一次吧～',
+  "Sorry, I couldn't reach my brain just now. Please try again in a moment!"
 ];
 
-// —— 英文知识库 ——
-const enKnowledge = [
-  {
-    keywords: ['university', 'campus', 'school', 'study', 'major', 'college', 'course', 'recent', 'how are you', 'how is school'],
-    answer: "Campus is going well! I'm an undergraduate in Computer Science & Technology at the Tianjin University × Hong Kong Polytechnic University Shenzhen Future Technology Institute. Right now I'm focusing on my coursework, getting into programming, and keeping a healthy work–life balance."
-  },
-  {
-    keywords: ['where', 'play', 'travel', 'hang out', 'weekend', 'outing', 'trip', 'explore', 'fun'],
-    answer: "I'm always up for an adventure! On weekends I love cafe-hopping, discovering new places and hanging out with friends. Got a spot to recommend? Let's go together!"
-  },
-  {
-    keywords: ['food', 'eat', 'restaurant', 'tasty', 'snack', 'dessert', 'tea', 'delicious'],
-    answer: "I've been seriously exploring food lately! As a big foodie, I especially love finding new restaurants, desserts and bubble tea. I'm not online so I can't name specific places off the top of my head — but I'm always happy to talk food!"
-  },
-  {
-    keywords: ['job', 'career', 'work', 'future', 'employment', 'intern', 'path'],
-    answer: "I'm taking my time figuring out the future. For now I want to focus on my courses and programming, explore and learn as much as I can, and see which path suits me. No rush — one step at a time!"
-  },
-  {
-    keywords: ['graduate', 'grad school', 'postgrad', 'master', 'phd', 'further study'],
-    answer: "I'm still weighing grad school options. I'd like to really nail down my current studies first and think it through later. Are you considering grad school too? We can cheer each other on!"
-  },
-  {
-    keywords: ['show', 'series', 'drama', 'movie', 'film', 'binge', 'watch'],
-    answer: "I'm on the lookout for good shows right now! I follow mysteries, light-hearted comedies and well-reviewed series, and I love swapping watchlists. What are you watching lately? Recommend me one!"
-  },
-  {
-    keywords: ['music', 'song', 'listen', 'concert', 'singer', 'playlist'],
-    answer: "Music is one of my greatest joys — nothing beats finding a song you love! What's on repeat for you lately? Let's trade recommendations."
-  },
-  {
-    keywords: ['hobby', 'interest', 'like', 'enjoy', 'do for fun', 'passion'],
-    answer: "My happiness trio: music, binge-watching shows, and going out to explore food. I balance study, coding and enjoying life — making everyday things shine."
-  },
-  {
-    keywords: ['appearance', 'look', 'glasses', 'face', 'photo'],
-    answer: "Easy to spot me: round glasses and a big smile are my signature. People often call me 'the girl with glasses'!"
-  },
-  {
-    keywords: ['hello', 'hi', 'hey', 'who are you', 'introduce', 'about'],
-    answer: "Hi there! Welcome to Yuxuan's little homepage! I'm her digital twin, Xiaoyu. Ask me about her campus life, where she likes to go, favorite food, or just chat about shows and music!"
-  }
-];
+let history = [];
+let pending = false;
 
 function isEnglish(text) {
   const latin = (text.match(/[a-zA-Z]/g) || []).length;
   const cjk = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
   return latin > 0 && latin >= cjk;
-}
-
-function getReply(question) {
-  const normalized = question.toLowerCase().trim();
-  const base = isEnglish(normalized) ? enKnowledge : knowledge;
-  const fallback = isEnglish(normalized)
-    ? "That's a bit new — my knowledge cards don't cover it yet. Try asking about her campus life, favorite food, where to go, or shows and music!"
-    : '这个问题有点新鲜，我的知识卡片里还没写到呢～不过你可以问我：近况、想去哪玩、吃了什么好吃的，或者聊聊好剧和音乐呀！';
-  const result = base.find(item =>
-    item.keywords.some(keyword => normalized.includes(keyword))
-  );
-  return result ? result.answer : fallback;
 }
 
 function addMessage(text, sender) {
@@ -144,17 +65,69 @@ function showTyping() {
   messages.scrollTop = messages.scrollHeight;
 }
 
-function ask(question) {
+function removeTyping() {
+  document.querySelector('#typing')?.remove();
+}
+
+function setPending(value) {
+  pending = value;
+  const button = form.querySelector('button[type="submit"]');
+  if (button) button.disabled = value;
+  input.disabled = value;
+}
+
+async function requestReply(msgs) {
+  if (!API_ENDPOINT) throw new Error('TWIN_API 未配置');
+
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+
+  try {
+    const response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: msgs }),
+      signal: controller.signal
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.reply) {
+      throw new Error(data.error || `HTTP ${response.status}`);
+    }
+    return data.reply;
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
+async function ask(question) {
   const text = question.trim();
-  if (!text) return;
+  if (!text || pending) return;
+
   addMessage(text, 'user');
   input.value = '';
   suggestions.style.display = 'none';
   showTyping();
-  window.setTimeout(() => {
-    document.querySelector('#typing')?.remove();
-    addMessage(getReply(text), 'bot');
-  }, 650);
+  setPending(true);
+
+  history.push({ role: 'user', content: text });
+  if (history.length > MAX_HISTORY) history = history.slice(-MAX_HISTORY);
+
+  try {
+    const reply = await requestReply(history);
+    removeTyping();
+    addMessage(reply, 'bot');
+    history.push({ role: 'assistant', content: reply });
+    if (history.length > MAX_HISTORY) history = history.slice(-MAX_HISTORY);
+  } catch (error) {
+    // 失败不静默兜底：明确告诉访客这次没答上，避免把占位话术冒充模型回答
+    console.warn('[twin] 请求失败：', error);
+    removeTyping();
+    history.pop();
+    addMessage(isEnglish(text) ? errorTips[1] : errorTips[0], 'bot');
+  } finally {
+    setPending(false);
+    input.focus();
+  }
 }
 
 form.addEventListener('submit', event => {
@@ -167,6 +140,8 @@ suggestions.addEventListener('click', event => {
 });
 
 resetButton.addEventListener('click', () => {
+  if (pending) return;
+  history = [];
   messages.innerHTML = '';
   addMessage(opening, 'bot');
   suggestions.style.display = 'flex';

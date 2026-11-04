@@ -311,8 +311,8 @@
           <div class="row-when">Project 01<em>个人站点</em></div>
           <div class="row-main">
             <h3>数字分身 · 个人主页</h3>
-            <p class="body-text">一个「中英双语」的个人学术主页，包含自我介绍、教育背景、兴趣技能，以及一个能对话的本地数字分身。纯静态实现（HTML / CSS / JS），无需后端、不上传聊天内容。</p>
-            <p class="body-text en">A bilingual personal academic homepage with profile, education, interests, and a local rule-based digital twin chatbot. Pure static (HTML / CSS / JS) — no backend, and chat content never leaves the browser.</p>
+            <p class="body-text">一个「中英双语」的个人学术主页，包含自我介绍、教育背景、兴趣技能，以及一个接入 DeepSeek 大模型的数字分身。前端纯静态托管在 GitHub Pages，模型请求经服务端代理转发，密钥不下发到浏览器。</p>
+            <p class="body-text en">A bilingual personal academic homepage with profile, education, interests, and a digital twin powered by the DeepSeek large language model. The frontend is static on GitHub Pages; model calls go through a server-side proxy so no API key ever reaches the browser.</p>
             <p class="tag-line"><span>HTML</span><span>CSS</span><span>JavaScript</span></p>
           </div>
         </div>
@@ -345,7 +345,7 @@
           <img src="assets/liuyuxuan-avatar.png" alt="小羽头像 / Xiaoyu avatar" />
           <div><strong>小羽 · 数字分身</strong><span><i></i> 在线摸鱼中 · Online</span></div>
         </div>
-        <p class="privacy-note">✿ 本地对话，不上传聊天内容 · Local chat, nothing is uploaded</p>
+        <p class="privacy-note">✿ 回答由 AI 实时生成，可能不准确 · AI-generated, may be inaccurate</p>
       </div>
 
       <div class="chat-card">
@@ -478,7 +478,7 @@
       </div>
       <div class="footer-right">
         <p>© 2026 · 个人主页课程作业 · Personal Homepage</p>
-        <p>数字分身基于本地知识库，不上传聊天内容 · Local knowledge base, nothing uploaded</p>
+        <p>数字分身由 DeepSeek 大模型驱动 · Digital twin powered by DeepSeek</p>
       </div>
     </footer>
   </main>
@@ -513,6 +513,8 @@
   </div>
 
   <script src="hero.js?v=20260917c"></script>
+  <!-- 数字分身接口地址配置（只改这一个文件） -->
+  <script src="twin-config.js"></script>
   <script src="script.js?v=20260924d"></script>
   <script src="scrollfx.js?v=20260924b"></script>
   <!-- 留言板：先在 supabase-config.js 填写 Project URL 与 anon key -->
